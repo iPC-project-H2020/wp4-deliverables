@@ -1,22 +1,54 @@
 ---
 title: "Building molecular networks and patient-patient similarity networks"
-output: rmarkdown::html_vignette
-vignette: >
-  %\VignetteIndexEntry{introduction}
-  %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteEncoding{UTF-8}
+author: '[Marianyela Petrizzelli](mailto:marianyela.petrizzelli@curie.fr)'
+date: "January 2021"
+output:
+  md_document:
+    toc: yes
+    toc_depth: 2
+  html_document:
+    depth: 3
+    keep_md: yes
+    number_sections: yes
+    toc: yes
 ---
+This package provides the codes to Build Molecular Networks and Patient-Patient Similarity networks (BMNPPS) described in details in deliverable 4.1. 
+The package is currently being tested.
 
-```{r, include = FALSE}
-knitr::opts_chunk$set(
-  collapse = TRUE,
-  comment = "#>"
-)
+# Intalling BMNPPS
+The BMNPPS package relies on R version 4.0.3, thus BioConductor must be updated to version 3.12. 
+
+```{r, eval=TRUE}
+if (!requireNamespace("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+BiocManager::install(version = "3.12")
+```
+In addition, BMNPPS package relies on package `gprofiler2` that can be installed using `BiocManager`, and `rROMA` that can be installed using `devtools`:
+
+```{r, eval=FALSE}
+if(!"gprofiler2" %in% installed.packages()){
+  BiocManager::install("gprofiler2")
+}
+if(!requireNamespace("devtools")){
+  install.packages("devtools")
+}
+if(!requireNamespace("rRoma")){
+  devtools::install_github("Albluca/rROMA")
+}
+```
+Similarly, it is possible to install the BMNPPS package using devtools by typing:
+```{r, eval=FALSE}
+if(!requireNamespace("BMNPPS")){
+  devtools::install_github("iPC-project-H2020/wp4-deliverables/BMNPPS")
+}
 ```
 
-Upload the BMNPPS package
+# Using BMNPPS
+Upload the BMNPPS package:
 ```{r setup}
 library(BMNPPSN)
 ```
+BMNPPS requires an expression matrix - with column names indicating samples and row names indicating gene names - and a network file produced by COSIFER - with columns e1, e2 and intensity, in which each row indicates the intensity of the edge between node e1 and node e2. 
 
+# An example
 
