@@ -12,18 +12,18 @@ output:
     number_sections: yes
     toc: yes
 ---
-This package provides the codes to Build Molecular Networks and Patient-Patient Similarity networks (BMNPPS) described in details in deliverable 4.1. 
+This package provides the codes to Build Molecular Networks and Patient-Patient Similarity Networks (BMNPPSN) described in details in deliverable 4.1. 
 The package is currently being tested.
 
-# Intalling BMNPPS
-The BMNPPS package relies on R version 4.0.3, thus BioConductor must be updated to version 3.12. 
+# Intalling BMNPPSN
+The BMNPPSN package relies on R version 4.0.3, thus BioConductor must be updated to version 3.12. 
 
 ```{r, eval=TRUE}
 if (!requireNamespace("BiocManager", quietly = TRUE))
     install.packages("BiocManager")
 BiocManager::install(version = "3.12")
 ```
-In addition, BMNPPS package relies on package `gprofiler2` that can be installed using `BiocManager`, and `rROMA` that can be installed using `devtools`:
+In addition, BMNPPSN package relies on package `gprofiler2` that can be installed using `BiocManager`, and `rROMA` that can be installed using `devtools`:
 
 ```{r, eval=FALSE}
 if(!"gprofiler2" %in% installed.packages()){
@@ -38,13 +38,13 @@ if(!requireNamespace("rRoma")){
 ```
 Similarly, it is possible to install the BMNPPS package using devtools by typing:
 ```{r, eval=FALSE}
-if(!requireNamespace("BMNPPS")){
-  devtools::install_github("iPC-project-H2020/wp4-deliverables/BMNPPS")
+if(!requireNamespace("BMNPPSN")){
+  devtools::install_github("iPC-project-H2020/wp4-deliverables/BMNPPSN")
 }
 ```
 
-# Using BMNPPS
-Upload the BMNPPS package:
+# Using BMNPPSN
+Upload the BMNPPSN package:
 ```{r setup}
 library(BMNPPSN)
 ```
