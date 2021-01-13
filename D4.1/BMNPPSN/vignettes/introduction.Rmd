@@ -1,0 +1,22 @@
+---
+title: "Building molecular networks and patient-patient similarity networks"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{introduction}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+Upload the BMNPPS package
+```{r setup}
+library(BMNPPSN)
+```
+
+
