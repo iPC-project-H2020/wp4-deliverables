@@ -327,7 +327,7 @@ performed just by
 typing:`knn.mat <- nng(x = eigenGene.matrix, k=sel.k, method = "euclidean", mutual = TRUE)`,
 where `sel.k` is the user selected k in the knn graph.
 
-Knn patient for WP4.1 multi-omics datasets
+Knn graphs for WP4.1 multi-omics datasets
 ==========================================
 
 The construction of knn graph for the multiomics datasets considered in
