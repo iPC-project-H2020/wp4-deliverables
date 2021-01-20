@@ -50,5 +50,23 @@ library(BMNPPSN)
 ```
 BMNPPS requires an expression matrix - with column names indicating samples and row names indicating gene names - and a network file produced by COSIFER - with columns e1, e2 and intensity, in which each row indicates the intensity of the edge between node e1 and node e2. 
 
-# An example
+# Create a subnetwork
+It is possible to create a subnetwork simply by typing 
+`create_subnetwork(directory, outDirectory, n.edges=10^5)`
+where `directory` is the directory of the original network in .csv.gz format, and `outDirectory` the user defined output directory. 
 
+# Tunning the inflation parameter for clustering and clustering
+Tunning and clustering is as simple as typing `mcl_clustering(resDirectory, outDirectory)` where now `resDirectory` is the directory where subnetworks have been saved and `outDirectory` the user defined output directory. MCL clustering is performed with inflation parameters from 1 to 3.5 with a step of 0.1. The inflation for which the max number of clusters with more than 10 genes is attaint, is retained and stored. 
+
+# Enrichment analysis of the communities identified through MCL
+Now that we have identify communities in the network, `run_gprofiler(directory)` performs gene enrichment analysis of the communities (saved in `directory`) and stores the results in `directory`. 
+
+# Construction of eigenGene matrix using Roma
+To construct the eigenGene matrix we need now an input `directory` where the expression matrix is stored and the `outDirectory` containing the results from the previous analysis. Thus, `runRoma(directory, outDirectory)`computes the eigenGene matrix and stores it in the `outDirectory`. 
+
+# Knn patient similarity networks
+Once we have the eigenGene matrix, construction of knn graph can be performed just by typing:`knn.mat <- nng(x = eigenGene.matrix, k=sel.k, method = "euclidean", mutual = TRUE)`, where `sel.k` is the user selected k in the knn graph. 
+
+# Knn patient for WP4.1 multi-omics datasets
+The construction of knn graph for the multiomics datasets considered in WP4.1 is made available in folder `R\pca_knn_graph.R` and the eigenGene matrices in `data` 
+      
