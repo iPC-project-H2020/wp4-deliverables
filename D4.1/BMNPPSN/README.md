@@ -18,7 +18,7 @@ deliverable 4.1. The package is currently being tested.
 Intalling BMNPPSN
 =================
 
-The BMNPPSN package relies on R version 4.0.3, thus BioConductor must be
+The BMNPPSN package relies on R version 4.0.1, thus BioConductor must be
 updated to version 3.12.
 
     if (!requireNamespace("BiocManager", quietly = TRUE))
