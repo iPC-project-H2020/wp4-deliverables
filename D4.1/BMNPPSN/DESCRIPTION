@@ -1,40 +1,42 @@
 Package: BMNPPSN
 Title: Building molecular networks and patient-patient similarity networks
-Version: 0.0.0.9000
+Version: 0.0.0.1
 Authors@R: 
-    person(given = "Marianyela",
-           family = "Petrizzelli",
-           role = c("aut", "cre"),
-           email = "marianyela.petrizzelli@curie.fr",
-           comment = c(ORCID = "0000-0002-4342-428X"))
-Description: What the package does (one paragraph).
-Depends:
- R (>= 3.0)
-License: GPL-3
+  person(given = "Marianyela",
+    family = "Petrizzelli",
+    role = c("aut", "cre"),
+    email = "marianyela.petrizzelli@curie.fr",
+    comment = c(ORCID = "0000-0002-4342-428X"))
+Description: The following package is part of the iPC project, WP4.1. It analyze molecular networks produced with COSIFER and builds patient-patient similarity networks. 
+License:  GPL-3
 Encoding: UTF-8
 LazyData: true
-Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.1.1
+Roxygen:  list(markdown = TRUE)
+RoxygenNote:  7.1.1
 Imports: 
- data.table (>= 1.13.4),
- RCy3 (>= 2.10.2),
- RCyjs (>= 2.12.0),
- BioNet (>= 1.50.0),
- gprofiler2 (>= 0.2.0),
- igraph (>= 1.2.6),
- crunch (>= 1.27.5),
- MCL (>= 1.0),
- tictoc,
- Matrix (>= 1.2.18),
- readr (>= 1.4.0),
- scater (>= 1.18.3),
- devtools (>= 2.3.2), 	
- BiocManager
+  RCy3 (>= 2.10.2),
+  RCyjs (>= 2.12.0),
+  BioNet (>= 1.50.0),
 Suggests:
-    mice,
-    RNaviCell,
-    biomaRt,
-    SigCheck,
-    knitr,
-    rmarkdown
-VignetteBuilder: knitr
+  mice,
+  RNaviCell,
+  biomaRt,
+  SigCheck,
+  knitr,
+  rmarkdown
+Depends:
+  R (>= 4.0.1),
+  tictoc, 
+  crunch (>= 1.27.5),
+  data.table (>= 1.13.4),
+  igraph (>= 1.2.6),
+  readr (>= 1.4.0), 
+  gprofiler2 (>= 0.2.0),
+  MCL (>= 1.0),
+  Matrix (>= 1.2.18),
+  scater (>= 1.18.3),
+  devtools (>= 2.3.2), 	
+  BiocManager, 
+  cccd
+VignetteBuilder:
+  knitr

@@ -43,7 +43,7 @@ run_gprofiler <- function(directory){
         list.genes.in.cluster[[as.character(cl.net)]]$gprofiler <- gost.res$result
       }
       write.csv2(group.table, file = outDirectory, row.names = FALSE, quote = FALSE)
-      save(list.genes.in.cluster, file= paste0(mydir,"/", filename,"_cluster_gprofiler.Rdata"))
+      save(list.genes.in.cluster, file= paste0(mydir,"/", filename,"_cluster_gprofiler.Rdata"), envir=environment())
     }
   }
 }

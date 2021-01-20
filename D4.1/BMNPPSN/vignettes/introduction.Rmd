@@ -69,4 +69,11 @@ Once we have the eigenGene matrix, construction of knn graph can be performed ju
 
 # Knn patient for WP4.1 multi-omics datasets
 The construction of knn graph for the multiomics datasets considered in WP4.1 is made available in folder `R\pca_knn_graph.R` and the eigenGene matrices in `data` 
-      
+              
+
+
+
+
+
+
+

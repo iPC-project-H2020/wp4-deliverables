@@ -16,11 +16,6 @@
 #' @export
 create_subnetwork <- function(directory, outDirectory, idx=NULL, threshold=NULL, n.edges=10^5){
 
-  if (length(args) == 0)  stop("Must set input file directory", call. = F)
-  directory = args[1]
-  if (length(args) == 1)  stop("Must set output file directory", call. = F)
-  outDirectory = args[2]
-
   ## create output directory
   if (!dir.exists(outDirectory))
     dir.create(outDirectory, recursive = T)
