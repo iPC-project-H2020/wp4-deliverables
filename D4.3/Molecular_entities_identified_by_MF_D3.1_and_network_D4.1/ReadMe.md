@@ -1,6 +1,6 @@
 # Crossing the results of matrix factorization and network-based analysis of multi-omics data
 
-We report here the code and approach used for the analyses performed in WP4 D4.3. The aim is to investigate if the molecular entities defined in D3.1 and D4.1 are similar. For that, we compare the results of the applications of matrix factorization (D3.1) with the applications of network inference (D4.1) obtained on solid pediatric cancers studied in iPC.
+We report here the code and approach used for one of the analyses performed in WP4 D4.3. The aim is to investigate if the molecular entities defined in D3.1 and D4.1 are similar. For that, we compare the results of the applications of matrix factorization (D3.1) with the applications of network inference (D4.1) obtained on solid pediatric cancers studied in iPC.
 
 As a reminder:
 In D3.1, we performed unsupervised deconvolution using matrix factorization (more precisely stabilized Independent Component Analysis) of gene expression data from the 4 solid tumor types of interest in iPC. We used the results of the meta-analysis performed on gene expression of the solid tumor datasets, using the generated meta-weighted metagenes as defined in D3.1.
@@ -31,12 +31,12 @@ They are provided here in the input_files folder.
 
 The analysis provides different informations:
 
-* a report "Report_*molecular_*entities_*identified_*by_*MF_*D3.1_*network_*D4.1.html" describing step by step how we selected the communities that we think to be of interest.(The folder ReportmolecularentitiesidentifiedbyMFD3.1networkD4.1_files contains all the files and images needed to build the html report)
+* a report "Report_molecular_entities_identified_by_MF_D3.1_network_D4.1.html" describing step by step how we selected the communities that we think to be of interest. (The folder Report_molecular_entities_identified_by_MF_D3.1_network_D4.1_files contains all the files and images needed to build the html report)
 
-* 2 tables describing these communities "community*stats.txt" and "community_complete_*description.txt"
+* 2 tables describing these communities "community_stats.txt" and "community_complete_description.txt"
 
-* a table "tabletopcontributing_genes.txt" describing the 10 top contributing genes of these communities of interest
+* a table "table_top_contributing_genes.txt" describing the 10 top contributing genes of these communities of interest
 
 ## Usage recommendations:
 The main document is Report_molecular_entities_identified_by_MF_D3.1_network_D4.1.Rmd, which calls template_enrichment_in_modules.Rmd and template_enrichment_in_GO.Rmd.
-To launch this analysis, one has just to launch the main Rmd document, in a folder where the subfolder input_files is included.
+To launch this analysis, the user only has to launch the main Rmd document, in a folder where the subfolder input_files is included.
