@@ -1,0 +1,47 @@
+```{r, echo=FALSE, message=FALSE, warning = FALSE}
+geneList <- weighted_metagenes[,i] #numeric vector
+names(geneList) <- rownames(weighted_metagenes) #named vector
+geneList_HUGO <- sort(geneList, decreasing = TRUE) #decreasing order
+
+#define driver genes
+ind_pos_tail_3SD=which(weighted_metagenes[,i]>Mean[i]+3*SD[i])
+ind_neg_tail_3SD=which(weighted_metagenes[,i]<Mean[i]-3*SD[i])
+gene_pos_tail = weighted_metagenes[ind_pos_tail_3SD,i]
+gene_neg_tail = weighted_metagenes[ind_neg_tail_3SD,i]
+names(gene_pos_tail) = rownames(weighted_metagenes[ind_pos_tail_3SD,])
+names(gene_neg_tail) = rownames(weighted_metagenes[ind_neg_tail_3SD,])
+gene_pos_tail_list = sort(gene_pos_tail, decreasing = TRUE)
+gene_neg_tail_list = sort(gene_neg_tail, decreasing = TRUE)
+```
+
+```{r, echo=FALSE, message=FALSE, warning = FALSE}
+e_sgmt_pos <- enricher(names(gene_pos_tail_list), TERM2GENE=sgs, pvalueCutoff = 0.01, pAdjustMethod = "BH", universe=names(geneList_HUGO), minGSSize = 5, maxGSSize = 900, qvalueCutoff = 0.01)
+e_sgmt_neg <- enricher(names(gene_neg_tail_list), TERM2GENE=sgs, pvalueCutoff = 0.01, pAdjustMethod = "BH", universe=names(geneList_HUGO), minGSSize = 5, maxGSSize = 900, qvalueCutoff = 0.01)
+if ( !is.null(e_sgmt_pos) && nrow(e_sgmt_pos)>0 )
+{
+  egmt_pos = as.data.frame(e_sgmt_pos)
+  egmt_pos$Community=paste0("C",i)
+  #retrieve the module in csv file
+  ind_module_in_csv_file = match(egmt_pos$ID, specific_gene_sets_csv$V1)
+  egmt_pos$Annotation = specific_gene_sets_csv$V2[ind_module_in_csv_file]
+  egmt_pos$Module = specific_gene_sets_csv$V1[ind_module_in_csv_file]
+  egmt_pos_communities=rbind(egmt_pos_communities,egmt_pos)
+  #keep only enrichments with >= 5 genes
+  egmt_pos_communities = subset(egmt_pos_communities,Count>=5)
+}
+
+if ( !is.null(e_sgmt_neg) && nrow(e_sgmt_neg)>0 )
+{
+  egmt_neg = as.data.frame(e_sgmt_neg)
+  egmt_neg$Community=paste0("C",i)
+  #retrieve the module in csv file
+  ind_module_in_csv_file = match(egmt_neg$ID, specific_gene_sets_csv$V1)
+  egmt_neg$Annotation = specific_gene_sets_csv$V2[ind_module_in_csv_file]
+  egmt_neg$Module = specific_gene_sets_csv$V1[ind_module_in_csv_file]
+  egmt_neg_communities=rbind(egmt_neg_communities,egmt_neg)
+  #keep only enrichments with >= 5 genes
+  egmt_neg_communities = subset(egmt_neg_communities,Count>=5)
+}
+```
+
+<br><br><br>

@@ -1,0 +1,132 @@
+```{r, echo=FALSE, message=FALSE, warning = FALSE,fig.fullwidth = TRUE, fig.width=12}
+i=substring(rownames(community_comp_cleaned)[j],2,nchar(rownames(community_comp_cleaned)[j]))
+i=as.integer(i)
+
+geneList <- weighted_metagenes[,i] #numeric vector
+names(geneList) <- rownames(weighted_metagenes) #named vector
+geneList <- sort(geneList, decreasing = TRUE) #decreasing order
+geneList_HUGO = geneList
+geneList_conversion = bitr(names(geneList), fromType="SYMBOL", toType="ENTREZID", OrgDb="org.Hs.eg.db")
+names(geneList) <- geneList_conversion$ENTREZID
+
+#define top-contributing genes
+ind_pos_tail_3SD=which(weighted_metagenes[,i]>Mean[i]+3*SD[i])
+ind_neg_tail_3SD=which(weighted_metagenes[,i]<Mean[i]-3*SD[i])
+gene_pos_tail = weighted_metagenes[ind_pos_tail_3SD,i]
+gene_neg_tail = weighted_metagenes[ind_neg_tail_3SD,i]
+names(gene_pos_tail) = rownames(weighted_metagenes[ind_pos_tail_3SD,])
+names(gene_neg_tail) = rownames(weighted_metagenes[ind_neg_tail_3SD,])
+gene_pos_tail_temp = sort(gene_pos_tail, decreasing = TRUE)
+gene_neg_tail_temp = sort(gene_neg_tail, decreasing = TRUE)
+gene_pos_tail_list = bitr(names(gene_pos_tail_temp), fromType="SYMBOL", toType="ENTREZID", OrgDb="org.Hs.eg.db")
+gene_neg_tail_list = bitr(names(gene_neg_tail_temp), fromType="SYMBOL", toType="ENTREZID", OrgDb="org.Hs.eg.db")
+```
+
+### `r paste0("Community ",i)`
+
+```{r, echo=FALSE, message=FALSE, warning = FALSE,fig.fullwidth = TRUE, fig.width=12, results='asis'}
+ind_to_be_retrieved = which( community_stats$community %in% rownames(community_comp_cleaned)[j])
+tail = community_stats$sig_tail[ind_to_be_retrieved]
+if ( length(grep("pos",tail))>0)
+{
+  ego_pos <- enrichGO(gene      = gene_pos_tail_list$ENTREZID,
+                      universe      = names(geneList),
+                      OrgDb         = org.Hs.eg.db,
+                      #keyType = "SYMBOL",
+                      ont           = "ALL",
+                      pAdjustMethod = "BH",
+                      pvalueCutoff  = 0.01,
+                      qvalueCutoff  = 0.01,
+                      readable      = TRUE,
+                      pool         = TRUE)
+  
+  if ( !is.null(ego_pos) && nrow(ego_pos) > 0 )
+  {
+    #save the 3 most significant enrichments
+    top_enrichments[j,1] = paste0(ego_pos$Description[1:3], collapse = " - ")
+    
+    go1_d <- dotplot(ego_pos, showCategory=20) + ggtitle(paste0("\n\n\ndotplot of the top-contributing genes (pos tail) in community ",rownames(community_comp_cleaned)[j]))
+    print(plot_grid(go1_d, ncol=1)) 
+    if (nrow(ego_pos) > 1)
+    {
+      ego_pos2 <- pairwise_termsim(ego_pos, method="Wang", semData = d)
+      go1_e <- emapplot(ego_pos2, showCategory = 10) + ggtitle(paste0("\n\n\nemapplot of the top-contributing genes (pos tail) in community ",rownames(community_comp_cleaned)[j]))
+      print(plot_grid(go1_e, ncol=1))
+    }
+    if (any(ego_pos$Count>1))
+    {
+      go1_c <- cnetplot(ego_pos, foldChange=geneList, node_label="all") + ggtitle(paste0("\n\n\ncnetplot of the top-contributing genes (pos tail) in community ",rownames(community_comp_cleaned)[j]))
+      print(plot_grid(go1_c, ncol=1)) 
+    }
+    datatable(data.frame(ego_pos)[,c(1:3,10,4:9)], rownames=FALSE, caption=paste0("\n\n\nGO overexpression analysis for top-contributing genes (pos tail) in community ",rownames(community_comp_cleaned)[j]) ) 
+  } 
+}
+
+
+if ( length(grep("neg",tail))>0)
+{
+  ego_neg <- enrichGO(gene      = gene_neg_tail_list$ENTREZID,
+                      universe      = names(geneList),
+                      OrgDb         = org.Hs.eg.db,
+                      #keyType = "SYMBOL",
+                      ont           = "ALL",
+                      pAdjustMethod = "BH",
+                      pvalueCutoff  = 0.01,
+                      qvalueCutoff  = 0.01,
+                      readable      = TRUE)
+  
+  if( !is.null(ego_neg) && nrow(ego_neg) > 0 )
+  {
+    #save the 3 most significant enrichments
+    top_enrichments[j,2] = paste0(ego_neg$Description[1:3], collapse = " - ")
+    
+    go2_d <- dotplot(ego_neg, showCategory=20) + ggtitle(paste0("\n\n\ndotplot of the top-contributing genes (neg tail) in community ",rownames(community_comp_cleaned)[j]))
+    print(plot_grid(go2_d, ncol=1)) 
+    if (nrow(ego_neg) > 1)
+    {
+      ego_neg2 <- pairwise_termsim(ego_neg, method="Wang", semData = d)
+      go2_e <- emapplot(ego_neg2, showCategory = 10) + ggtitle(paste0("\n\n\nemapplot of the top-contributing genes (neg tail) in community ",rownames(community_comp_cleaned)[j]))
+      print(plot_grid(go2_e, ncol=1)) 
+    }
+    if (any(ego_neg$Count>1))
+    {
+      go2_c <- cnetplot(ego_neg, foldChange=geneList, node_label="all") + ggtitle(paste0("\n\n\ncnetplot of the top-contributing genes (neg tail) in community ",rownames(community_comp_cleaned)[j]))
+      print(plot_grid(go2_c, ncol=1)) 
+    }
+    datatable(data.frame(ego_neg)[,c(1:3,10,4:9)], rownames=FALSE, caption=paste0("\n\n\nGO overexpression analysis for top-contributing genes (neg tail) in community ",rownames(community_comp_cleaned)[j])) 
+  } 
+}
+
+ego_gse <- gseGO(geneList     = geneList,
+              OrgDb        = org.Hs.eg.db,
+              #keyType = "SYMBOL",
+              ont          = "ALL",
+              #nPerm        = nPerm, 
+              minGSSize    = 10,
+              maxGSSize    = 900,
+              pvalueCutoff = 0.05,
+              pAdjustMethod = "BH",
+              verbose      = FALSE)
+
+ego_gse <- setReadable(ego_gse, 'org.Hs.eg.db',keyType = "auto")
+ind_NES=which(abs(ego_gse$NES)>=2)
+ego_gse=ego_gse[ind_NES,]
+ego_gse_pos=ego_gse[which(ego_gse$NES>=2),]
+ind_order_pos=order(ego_gse_pos$NES, decreasing=TRUE)
+ego_gse_pos=ego_gse_pos[ind_order_pos,]
+ego_gse_neg=ego_gse[which(ego_gse$NES<=-2),]
+ind_order_neg=order(ego_gse_neg$NES, decreasing=FALSE)
+ego_gse_neg=ego_gse_neg[ind_order_neg,]
+
+if ( length(grep("pos",tail))>0)
+{
+  datatable(ego_gse_pos, rownames=FALSE, caption=paste0("\n\n\nGO gsea for top-contributing genes (pos tail) in community ",rownames(community_comp_cleaned)[j]))
+}
+
+if ( length(grep("neg",tail))>0)
+{
+  datatable(ego_gse_neg, rownames=FALSE, caption=paste0("\n\n\nGO gsea for top-contributing genes (neg tail) in community ",rownames(community_comp_cleaned)[j]))
+}
+```
+
+<br><br><br>
